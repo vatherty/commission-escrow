@@ -1,0 +1,60 @@
+# Render blueprint for the Commission Escrow standalone service.
+#
+# IMPORTANT — what this file deliberately does NOT contain: a database.
+# The free Postgres expires 30 days after creation, so it is created
+# LAST, by hand, when the test window opens (see DEPLOY.md). Creating it
+# from this blueprint would start that clock immediately.
+#
+# The cron service is created by the blueprint but must be SUSPENDED in
+# the Render dashboard until the first end-to-end job test passes
+# (DEPLOY.md step 10).
+
+services:
+  - type: web
+    name: commission-escrow
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    region: oregon
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: OWNER_EMAIL
+        sync: false # the owner's email — the account that is born dev
+      - key: SEED_DEMO_ON_BOOT
+        sync: false # set to 1 for the FIRST deploy only, then remove (DEPLOY.md step 6)
+      - key: APP_ENCRYPTION_KEY
+        generateValue: true # signs CSRF tokens; keep stable across deploys
+      - key: DATABASE_URL
+        sync: false # paste the Internal Database URL AFTER creating Postgres (LAST)
+      - key: STORAGE_DRIVER
+        value: s3
+      - key: S3_ENDPOINT
+        sync: false # e.g. https://<account-id>.r2.cloudflarestorage.com
+      - key: S3_REGION
+        value: auto
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_ACCESS_KEY_ID
+        sync: false
+      - key: S3_SECRET_ACCESS_KEY
+        sync: false
+
+  - type: cron
+    name: commission-escrow-tick
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    schedule: "*/5 * * * *"
+    dockerCommand: bun run jobs:tick
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # same Internal Database URL as the web service
