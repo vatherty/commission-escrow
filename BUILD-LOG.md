@@ -217,3 +217,12 @@ seed media served 200 with real bytes, jobs:tick clean + idempotent.
 10. **Password fixtures** were generated with the old code's exact
     parameters rather than by executing the artifact runtime (impossible
     from here) — see Decisions.
+
+## 2026-11-14 — Live copy fix (Colin's ruling: "no longer a prototype")
+- Removed every user-facing "prototype" label from client/src/App.tsx (footer,
+  login, signup, account page, Terms). The hosted site is a live, invite-only
+  beta; footer now reads "Live beta — invite-only test."
+- Terms substance unchanged: clause 1 still describes dollar figures as
+  simulated credits — flagged to Colin as a separate ruling, not silently
+  rewritten. Simulated-checker honesty labels untouched (checker is still
+  simulated until phase 2).
