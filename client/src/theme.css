@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600&display=swap');
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+@theme {
+  --text-xs: 12px; --text-xs--line-height: 16px;
+  --text-sm: 14px; --text-sm--line-height: 20px;
+  --text-base: 16px; --text-base--line-height: 24px;
+  --text-lg: 18px; --text-lg--line-height: 28px;
+  --text-xl: 20px; --text-xl--line-height: 28px;
+  --text-2xl: 24px; --text-2xl--line-height: 32px;
+  --text-3xl: 30px; --text-3xl--line-height: 36px;
+  --text-4xl: 38px; --text-4xl--line-height: 44px;
+}
+:root {
+  color-scheme: light;
+  --bg: #fffef9; --bg2: #fff9f0; --surface: #ffffff; --surface2: #fef3ec;
+  --text: #334155; --dim: #64748b; --border: #e2e8f0; --border-light: #f1f5f9;
+  --accent: #ff6b6b; --accent2: #ff8fab; --blue: #38bdf8; --purple: #a78bfa; --yellow: #facc15; --green: #34d399;
+  --radius: 0px;
+  --space-surface: var(--surface); --space-surface-alt: var(--surface2); --space-muted: var(--dim); --space-border: var(--border); --space-accent: var(--accent);
+}
+/* Colin's corner rule: EVERYTHING is square (border-radius 0) except two
+   sanctioned shapes — speech bubbles (.bubble / .speech) and pills (.pill)
+   used for nav, tags and badges. No other rounded corners anywhere. */
+* { border-radius: 0 !important; }
+section, article, aside, form, fieldset, table, div { border-radius: 0 !important; }
+.square { border-radius: 0 !important; }
+.bubble { border-radius: 20px !important; }
+.pill { border-radius: 999px !important; white-space: nowrap; flex-shrink: 0; }
+body { background: var(--bg); color: var(--text); font-family: Nunito, system-ui, -apple-system, sans-serif; }
+/* Horizontal-overflow backstop: nothing may widen the page past the
+   viewport. `clip` (not `hidden`) is used so the sticky pill nav keeps
+   working and no new scroll container is created; components that need
+   their own sideways scroll (nav bar, jobs table, stepper) keep it via
+   their own overflow-x-auto wrappers. */
+html, body, .app-root { overflow-x: clip; max-width: 100%; }
+.display, .condensed, .serif { font-family: Fredoka, Nunito, sans-serif; text-transform: none; letter-spacing: 0.01em; font-weight: 600; }
+.mono, .tnum { font-family: Nunito, system-ui, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+.hard { border: 1px solid #e2e8f0; box-shadow: 4px 4px 0 #ffe4e6; }
+.hard-sm { border: 1px solid #e2e8f0; }
+input, select, textarea { border-radius: 0 !important; }
+button { border-radius: 0 !important; }
+.soft-card { background:#fff; border:1px solid #e9e4f5; box-shadow: 5px 5px 0 #fde68a55, 0 2px 12px rgba(100,116,139,.06); }
+.soft-shadow-pink { box-shadow: 5px 5px 0 #ffe4ec; }
+.soft-shadow-blue { box-shadow: 5px 5px 0 #dbeafe; }
+.soft-shadow-yellow { box-shadow: 5px 5px 0 #fef9c3; }
+.soft-shadow-mint { box-shadow: 5px 5px 0 #d1fae5; }
+.starburst { clip-path: polygon(50% 0%, 61% 12%, 75% 4%, 79% 19%, 94% 18%, 90% 33%, 100% 42%, 91% 53%, 99% 65%, 86% 71%, 88% 87%, 73% 84%, 68% 98%, 55% 89%, 42% 100%, 38% 85%, 23% 92%, 22% 76%, 6% 79%, 11% 63%, 0% 54%, 10% 43%, 2% 29%, 17% 27%, 19% 11%, 33% 18%); }
+.tilt-l { transform: rotate(-3deg); } .tilt-r { transform: rotate(3deg); } .tilt-sm { transform: rotate(-1.5deg); }
+.dots-bg { background-image: radial-gradient(#fda4af 1.6px, transparent 1.7px); background-size: 14px 14px; }
+.dots-blue { background-image: radial-gradient(#7dd3fc 1.6px, transparent 1.7px); background-size: 14px 14px; }
+.btn-playful { transition: transform .15s ease, filter .15s ease, background .15s ease; }
+.btn-playful:hover { transform: rotate(-1deg) scale(1.02); filter: brightness(1.05); }
+.btn-playful:active { transform: scale(.98); }
+.speech { position: relative; }
+.speech::after { content:""; position:absolute; bottom:-9px; left:28px; width:16px; height:16px; background:inherit; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; transform: rotate(45deg); }
+@layer base { button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; } }
